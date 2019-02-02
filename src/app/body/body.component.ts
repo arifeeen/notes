@@ -6,39 +6,50 @@ import { SubjectserviceService } from '../services/subjectservice.service';
   templateUrl: './body.component.html',
   styleUrls: ['./body.component.css']
 })
-export class BodyComponent implements OnInit,AfterViewInit {
+export class BodyComponent implements OnInit, AfterViewInit {
   today: number = Date.now();
-  @ViewChild("menu",{read:ElementRef}) private mnu:ElementRef;
+  noteData: string = ''
+  @ViewChild("menu", { read: ElementRef }) private mnu: ElementRef;
 
-  constructor(private renderer:Renderer2,private subjectSevice:SubjectserviceService) {
-    
-   }
+  constructor(private renderer: Renderer2, private subjectSevice: SubjectserviceService) {
+
+  }
 
   ngOnInit() {
   }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.subjectSevice.getSidebar().subscribe(res => {
-      switch(res){
-        
-        case 'open':{
-          this.renderer.setStyle(this.mnu['nativeElement'],'left','20%');
-          this.renderer.setStyle(this.mnu['nativeElement'],'width','80%');
+      switch (res) {
+
+        case 'open': {
+          this.renderer.setStyle(this.mnu['nativeElement'], 'left', '20%');
+          this.renderer.setStyle(this.mnu['nativeElement'], 'width', '80%');
           break;
         }
-        case 'close':{
-          this.renderer.setStyle(this.mnu['nativeElement'],'left','5%');
-        this.renderer.setStyle(this.mnu['nativeElement'],'width','95%');
-        break;
-        }
-        case 'add':{
+        case 'close': {
+          this.renderer.setStyle(this.mnu['nativeElement'], 'left', '5%');
+          this.renderer.setStyle(this.mnu['nativeElement'], 'width', '95%');
           break;
         }
-        case 'delete':{
+        case 'add': {
+          break;
+        }
+        case 'delete': {
+          break;
+        }
+        case 'bind': {
+          let label = this.subjectSevice.notes[this.subjectSevice.currentSelectedIndex].label;
+          let body = this.subjectSevice.notes[this.subjectSevice.currentSelectedIndex].body;
+          this.noteData = (label === 'New Note Created' ? '' : label) + '\n' +  (body === 'No additional Text Content' ? '' : body);
           break;
         }
       }
-      
+
     })
+  }
+
+  keypressed() {
+    this.subjectSevice.addNoteData(this.noteData);
   }
 
 }

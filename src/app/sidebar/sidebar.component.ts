@@ -9,8 +9,9 @@ import { Note } from '../models/notes.model';
 })
 export class SidebarComponent implements OnInit,AfterViewInit {
   notes:Array<Note>;
+  currentIndex:any;
   constructor(private renderer: Renderer2,private subjectService:SubjectserviceService) {
-    this.notes = this.subjectService.notes.reverse();
+    this.notes = this.subjectService.notes.slice().reverse();
    }
 
   @ViewChild('sbar', {read: ElementRef}) private sbar:ElementRef;
@@ -25,14 +26,51 @@ export class SidebarComponent implements OnInit,AfterViewInit {
       switch(res){
         case 'add':{
           this.subjectService.notes.push(new Note());
+            
+          this.notes = this.subjectService.notes.slice().reverse();
+          setTimeout(() => {
+            this.diffNotesAdd(0);
+          },1)
+          this.subjectService.saveNotesJSON();
+
           break;
         }
         case 'delete':{
+          let length = this.notes.length;
+          if (length === 0) {
+            alert('No notes to delete');
+          } else if(length >= 1){
+            this.subjectService.notes.splice(this.subjectService.currentSelectedIndex,1);
+            this.notes = this.subjectService.notes.slice().reverse();
+            if (length === 1) {
+              return ;
+            }
+            else if(this.subjectService.currentSelectedIndex !== length - 1) {
+              this.diffNotesAdd(this.subjectService.currentSelectedIndex);
+
+            } else {
+              this.diffNotesAdd(this.subjectService.currentSelectedIndex - 1);
+            }
+
+          }
+          this.subjectService.saveNotesJSON();
           break;
         }
       }
       
-    })
+    });
+    
+
+    this.subjectService.getNoteData().subscribe(res => {
+      let updateLabel = res;
+      updateLabel = updateLabel.split(/\r?\n/);
+      this.notes[this.currentIndex].label = updateLabel[0] !== '' ? updateLabel[0] : 'New Note Created';
+      this.notes[this.currentIndex].body = updateLabel.slice(1).join('\n') !== '' ? updateLabel.slice(1).join('\n') : 'No additional Text Content';
+      this.subjectService.notes = this.notes.slice().reverse();
+      this.subjectService.saveNotesJSON();
+    });
+
+    this.diffNotesAdd(0);
   }
 
   openNav(){
@@ -47,6 +85,7 @@ export class SidebarComponent implements OnInit,AfterViewInit {
   }
 
   diffNotesAdd(index:any){
+    this.currentIndex = index;
     let count = 0;
     this.diffnotes.forEach(el => {
       if (count!==index){
@@ -55,9 +94,10 @@ export class SidebarComponent implements OnInit,AfterViewInit {
         this.renderer.setStyle(el['nativeElement'],'background-color','lightblue');
       }
       count+=1;
-    })
-    // let newEl = this.diffnotes[index].nativeElement;
-    // this.renderer.setStyle(newEl,'background-color','blue');
+    });
+    this.subjectService.currentSelectedIndex = this.diffnotes.length - index - 1;
+    this.subjectService.addSidebar('bind');
+
   }
 
 }

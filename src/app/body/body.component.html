@@ -1,5 +1,5 @@
 
 <div class="bdy" #menu> 
     <p style="height:5%;position:relative;left:40%">{{today | date:'MMMM dd,yyyy hh:mm a':'+0530'}}</p> 
-<textarea style="height:95%;width:100%;border:0"></textarea>
+<textarea style="height:95%;width:100%;border:0" (input)="keypressed()" [(ngModel)]="noteData"  autofocus ></textarea>
 </div>
