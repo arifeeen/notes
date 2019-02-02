@@ -1,13 +1,13 @@
 .sidebar {
     height: 100%; /* 100% Full-height */
-    width: 250px; /* 0 width - change this with JavaScript */
+    width: 20%; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
-    top: 10%;
+    top:10%;
     left: 0;
-    background-color: lightgray; /* Black*/
+    background-color:lightgoldenrodyellow; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
-    overflow-y:scroll;
+    overflow-y: auto;
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
   }
@@ -34,6 +34,7 @@
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
+   
   }
   
   /* The button used to open the sidebar */
@@ -51,7 +52,7 @@
   }
   
   @media screen and (max-height: 450px) {
-    .sidebar {padding-top: 15px; width:0px;}
+    .sidebar {padding-top: 15px; width:0%;}
     .sidebar a {font-size: 18px;}
   }
 

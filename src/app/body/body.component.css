@@ -1,0 +1,8 @@
+.bdy{
+    position:fixed;
+    top:10%;
+    left:20%;
+    background-color: white;
+    height:100%;
+    width:80%;
+}
