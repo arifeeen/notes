@@ -60,3 +60,17 @@
       position:fixed;
       top:10%;
   }
+
+  .hidedata{
+    display: block;
+  width: 130px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  
+  }
+ .setmargin{
+    margin-left:10px;
+    margin-right:10px;
+    margin-top:10px;
+ }

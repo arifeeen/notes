@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SubjectserviceService } from '../services/subjectservice.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(private subjectService:SubjectserviceService) { }
 
   ngOnInit() {
+  }
+
+  addNote(){
+    this.subjectService.addSidebar('add');
+  }
+
+  deleteNote(){
+    this.subjectService.addSidebar('delete');
   }
 
 }

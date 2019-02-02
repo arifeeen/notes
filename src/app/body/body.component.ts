@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { SubjectserviceService } from '../services/subjectservice.service';
 
 @Component({
@@ -6,25 +6,39 @@ import { SubjectserviceService } from '../services/subjectservice.service';
   templateUrl: './body.component.html',
   styleUrls: ['./body.component.css']
 })
-export class BodyComponent implements OnInit {
+export class BodyComponent implements OnInit,AfterViewInit {
   today: number = Date.now();
   @ViewChild("menu",{read:ElementRef}) private mnu:ElementRef;
 
   constructor(private renderer:Renderer2,private subjectSevice:SubjectserviceService) {
-    this.subjectSevice.getSidebar().subscribe(res => {
-      if (res === 'open'){
-        this.renderer.setStyle(this.mnu['nativeElement'],'left','20%');
-        this.renderer.setStyle(this.mnu['nativeElement'],'width','80%');
-        
-      } else {
-        this.renderer.setStyle(this.mnu['nativeElement'],'left','5%');
-        this.renderer.setStyle(this.mnu['nativeElement'],'width','95%');
-        
-      }
-    })
+    
    }
 
   ngOnInit() {
+  }
+  ngAfterViewInit(){
+    this.subjectSevice.getSidebar().subscribe(res => {
+      switch(res){
+        
+        case 'open':{
+          this.renderer.setStyle(this.mnu['nativeElement'],'left','20%');
+          this.renderer.setStyle(this.mnu['nativeElement'],'width','80%');
+          break;
+        }
+        case 'close':{
+          this.renderer.setStyle(this.mnu['nativeElement'],'left','5%');
+        this.renderer.setStyle(this.mnu['nativeElement'],'width','95%');
+        break;
+        }
+        case 'add':{
+          break;
+        }
+        case 'delete':{
+          break;
+        }
+      }
+      
+    })
   }
 
 }
