@@ -8,6 +8,8 @@ import { Note } from '../models/notes.model';
 export class SubjectserviceService {
   currentSelectedIndex:any;
   notes:Array<Note>;
+  editedDate:Date;
+  searchParam:string;
   private expandCloseSidebar = new Subject<any>();
   private passNoteData = new Subject<any>();
 

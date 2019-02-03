@@ -7,7 +7,7 @@ import { SubjectserviceService } from '../services/subjectservice.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-
+  search:string;
   constructor(private subjectService:SubjectserviceService) { }
 
   ngOnInit() {
@@ -19,6 +19,12 @@ export class MenuComponent implements OnInit {
 
   deleteNote(){
     this.subjectService.addSidebar('delete');
+  }
+
+  searchNotes(){
+    
+    this.subjectService.searchParam = this.search.toLowerCase();
+    this.subjectService.addSidebar('search');
   }
 
 }

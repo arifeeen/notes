@@ -56,21 +56,41 @@ export class SidebarComponent implements OnInit,AfterViewInit {
           this.subjectService.saveNotesJSON();
           break;
         }
+
+        case 'search':{
+          let searchParam = this.subjectService.searchParam;
+          this.notes = this.subjectService.notes.slice().reverse();
+          this.notes = this.notes.filter(note => {
+            return this.searchNote(note,searchParam);
+
+          })
+
+        }
       }
       
     });
     
 
     this.subjectService.getNoteData().subscribe(res => {
-      let updateLabel = res;
+      let updateLabel = res.trim();
       updateLabel = updateLabel.split(/\r?\n/);
-      this.notes[this.currentIndex].label = updateLabel[0] !== '' ? updateLabel[0] : 'New Note Created';
-      this.notes[this.currentIndex].body = updateLabel.slice(1).join('\n') !== '' ? updateLabel.slice(1).join('\n') : 'No additional Text Content';
+      this.notes[this.currentIndex].label = (updateLabel[0] !== '' ? updateLabel[0] : 'New Note Created').trim();
+      this.notes[this.currentIndex].body = (updateLabel.slice(1).join('\n') !== '' ? updateLabel.slice(1).join('\n') : 'No additional Text Content').trim();
+      this.notes[this.currentIndex].date = this.subjectService.editedDate;
       this.subjectService.notes = this.notes.slice().reverse();
       this.subjectService.saveNotesJSON();
     });
 
     this.diffNotesAdd(0);
+  }
+
+  searchNote(note:Note,searchParam:string){
+    let index1 = note.label.toLowerCase().search(searchParam);
+    let index2 = note.body.toLowerCase().search(searchParam);
+    if(index1 === -1 && index2 === -1){
+      return false
+    }
+    return true;
   }
 
   openNav(){

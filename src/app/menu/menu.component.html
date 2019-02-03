@@ -1,5 +1,5 @@
 <div class="bgd">
   <i class="fa fa-trash spc fa-2x" style="position:relative;left:30%;top:5%" aria-hidden="true" (click)="deleteNote()"></i>
   <i class="fa fa-pencil-square-o spc fa-2x" style="position:relative;left:31%;top:5%"  aria-hidden="true" (click)="addNote()"></i>
-  <input  class="spc" type="text" style="position:relative;left:32%;top:5%" placeholder="Search"> 
+  <input  class="spc" type="text" style="position:relative;left:32%;top:5%" placeholder="Search" (input) = "searchNotes()" [(ngModel)]="search"> 
 </div>

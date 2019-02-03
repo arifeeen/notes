@@ -10,6 +10,7 @@ export class BodyComponent implements OnInit, AfterViewInit {
   today: number = Date.now();
   noteData: string = ''
   @ViewChild("menu", { read: ElementRef }) private mnu: ElementRef;
+  @ViewChild("txtarea", { read: ElementRef }) private txtarea: ElementRef;
 
   constructor(private renderer: Renderer2, private subjectSevice: SubjectserviceService) {
 
@@ -46,10 +47,16 @@ export class BodyComponent implements OnInit, AfterViewInit {
       }
 
     })
+    console.log(this.mnu);
   }
 
   keypressed() {
+    this.subjectSevice.editedDate = new Date();
     this.subjectSevice.addNoteData(this.noteData);
+  }
+
+  focus(){
+    // this.txtarea.nativeElement.focus();
   }
 
 }
