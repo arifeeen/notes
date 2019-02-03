@@ -10,8 +10,11 @@ import { Note } from '../models/notes.model';
 export class SidebarComponent implements OnInit,AfterViewInit {
   notes:Array<Note>;
   currentIndex:any;
+  map = {};
+
   constructor(private renderer: Renderer2,private subjectService:SubjectserviceService) {
     this.notes = this.subjectService.notes.slice().reverse();
+    
    }
 
   @ViewChild('sbar', {read: ElementRef}) private sbar:ElementRef;
@@ -43,13 +46,13 @@ export class SidebarComponent implements OnInit,AfterViewInit {
             this.subjectService.notes.splice(this.subjectService.currentSelectedIndex,1);
             this.notes = this.subjectService.notes.slice().reverse();
             if (length === 1) {
+              this.subjectService.saveNotesJSON();
               return ;
             }
             else if(this.subjectService.currentSelectedIndex !== length - 1) {
+              this.subjectService.currentSelectedIndex = length -1 ;
               this.diffNotesAdd(this.subjectService.currentSelectedIndex);
 
-            } else {
-              this.diffNotesAdd(this.subjectService.currentSelectedIndex - 1);
             }
 
           }
@@ -58,10 +61,17 @@ export class SidebarComponent implements OnInit,AfterViewInit {
         }
 
         case 'search':{
+          this.map = {};
           let searchParam = this.subjectService.searchParam;
           this.notes = this.subjectService.notes.slice().reverse();
-          this.notes = this.notes.filter(note => {
-            return this.searchNote(note,searchParam);
+          let count1=0;
+          let count2=0;
+          this.notes.forEach(note => {
+            
+            let check =  this.searchNote(note,searchParam);
+            if(check){
+              note.show = true;
+            } else { note.show = false;}
 
           })
 
@@ -115,8 +125,14 @@ export class SidebarComponent implements OnInit,AfterViewInit {
       }
       count+=1;
     });
-    this.subjectService.currentSelectedIndex = this.diffnotes.length - index - 1;
-    this.subjectService.addSidebar('bind');
+    // if(this.subjectService.isSearch){
+    //   this.subjectService.currentSelectedIndex =  this.map[index] ;
+    // } else {
+    // }
+    this.subjectService.currentSelectedIndex = this.diffnotes.length - index - 1; 
+    if(this.notes.length){
+        this.subjectService.addSidebar('bind');
+    }
 
   }
 

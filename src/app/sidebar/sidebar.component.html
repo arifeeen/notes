@@ -1,20 +1,21 @@
 <div id="mySidebar" class="sidebar" #sbar>
   <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
   <h3 style="position:absolute;top:0;">Created Notes</h3>
-  <div *ngFor="let note of notes;let i = index" style="height:12%;width:100%;border:1px solid" (click)="diffNotesAdd(i)" #diffnotes >
-    
-    <div class="hidedata setmargin">
-      {{note.label}}
-    </div>
-    <div>
-      <span style="float:left;" class="setmargin">{{note.date | date:'dd,yyyy hh:mm a':'+0530'}}</span>
-      <span style="float:right;" class="hidedata setmargin">{{note.body}}</span>
-    </div>
-    </div>
+  <div *ngFor="let note of notes;let i = index" (click)="diffNotesAdd(i)"  #diffnotes>
 
-  
+    <ng-container *ngIf="note.show" style="height:12%;width:100%;">
+      <div class="hidedata">{{note.label}}</div>
+
+
+      <div class="hidedata">{{note.date | date:'dd,yyyy hh:mm a':'+0530'}}</div>
+      <div class="hidedata">{{note.body}}</div>
+    </ng-container>
+  </div>
+
+
+
 </div>
 
 <div id="main" class="options">
-  <button class="openbtn" (click)="openNav()">&#9776;</button> 
+  <button class="openbtn" (click)="openNav()">&#9776;</button>
 </div>

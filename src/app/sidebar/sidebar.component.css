@@ -63,10 +63,11 @@
 
   .hidedata{
     display: block;
-  width: 130px;
+  width: 150px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  margin-left:10%;
   
   }
  .setmargin{

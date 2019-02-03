@@ -7,13 +7,15 @@ import { SubjectserviceService } from '../services/subjectservice.service';
   styleUrls: ['./body.component.css']
 })
 export class BodyComponent implements OnInit, AfterViewInit {
-  today: number = Date.now();
+  today: Date = new Date();
   noteData: string = ''
   @ViewChild("menu", { read: ElementRef }) private mnu: ElementRef;
   @ViewChild("txtarea", { read: ElementRef }) private txtarea: ElementRef;
 
   constructor(private renderer: Renderer2, private subjectSevice: SubjectserviceService) {
-
+    setInterval(() => {
+      this.today = new Date();
+    }, 1);
   }
 
   ngOnInit() {
@@ -51,8 +53,10 @@ export class BodyComponent implements OnInit, AfterViewInit {
   }
 
   keypressed() {
+    if(this.subjectSevice.notes.length){
     this.subjectSevice.editedDate = new Date();
     this.subjectSevice.addNoteData(this.noteData);
+    }
   }
 
   focus(){

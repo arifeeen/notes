@@ -10,11 +10,12 @@ export class SubjectserviceService {
   notes:Array<Note>;
   editedDate:Date;
   searchParam:string;
+  isSearch:boolean;
   private expandCloseSidebar = new Subject<any>();
   private passNoteData = new Subject<any>();
 
   constructor() {
-    
+    this.isSearch = false;
     if(localStorage.getItem('savedNotes') !== null) {
     this.notes = JSON.parse(localStorage.getItem('savedNotes'));
     } else {

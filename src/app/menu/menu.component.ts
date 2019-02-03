@@ -22,7 +22,11 @@ export class MenuComponent implements OnInit {
   }
 
   searchNotes(){
-    
+    if(this.search.length > 0){
+      this.subjectService.isSearch = true;
+    } else {
+      this.subjectService.isSearch = false;
+    }
     this.subjectService.searchParam = this.search.toLowerCase();
     this.subjectService.addSidebar('search');
   }
